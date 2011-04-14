@@ -259,7 +259,7 @@ class Db
 		if (count((array) $columns) > 0) {
 			foreach ($columns as $column) {
 				$diff[] = "\nadd column {$column} to table {$table}";
-				$summary['column']['create'][] = "{$schema}.{$view}.{$column}";
+				$summary['column']['create'][] = "{$schema}.{$table}.{$column}";
 			}
 		}
 	}

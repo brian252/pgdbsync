@@ -4,19 +4,24 @@ namespace Pgdbsync;
 
 class Db
 {
+
 	private $masterDb = null;
+
 
 	public function setMasrer(DbConn $db)
 	{
 		$this->masterDb = $db;
 	}
 
+
 	private $slaveDb = array();
+
 
 	public function setSlave(DbConn $db)
 	{
 		$this->slaveDb[] = $db;
 	}
+
 
 	private function _buildConf(DbConn $db, $schema)
 	{
@@ -79,6 +84,7 @@ class Db
 		return $out;
 	}
 
+
 	private function _createTables($schema, $tables, $master, &$diff, &$summary)
 	{
 		if (count((array) $tables) > 0) {
@@ -121,7 +127,8 @@ class Db
 			}
 		}
 	}
-	
+
+
 	private function _deleteTables($schema, $tables, $master, &$diff, &$summary)
 	{
 		if (count((array) $tables) > 0) {
@@ -131,7 +138,8 @@ class Db
 			}
 		}
 	}
-	
+
+
 	private function _deleteViews($schema, $views, $master, &$diff, &$summary)
 	{
 		if (count((array) $views) > 0) {
@@ -141,7 +149,8 @@ class Db
 			}
 		}
 	}
-	
+
+
 	private function _deleteSequences($schema, $sequences, $master, &$diff, &$summary)
 	{
 		if (count((array) $sequences) > 0) {
@@ -151,7 +160,8 @@ class Db
 			}
 		}
 	}
-	
+
+
 	private function _deleteFunctions($schema, $functions, $master, &$diff, &$summary)
 	{
 		if (count((array) $functions) > 0) {
@@ -161,7 +171,8 @@ class Db
 			}
 		}
 	}
-	
+
+
 	private function _createFunctions($schema, $functions, $master, &$diff, &$summary)
 	{
 		if (count((array) $functions) > 0) {
@@ -172,7 +183,8 @@ class Db
 			}
 		}
 	}
-	
+
+
 	private function _createSequences($schema, $sequences, $master, &$diff, &$summary)
 	{
 		if (count((array) $sequences) > 0) {
@@ -181,7 +193,8 @@ class Db
 			}
 		}
 	}
-	
+
+
 	private function _createSequence($schema, $sequence, $master, &$diff, &$summary)
 	{
 		$increment = $master['sequences'][$sequence]['increment'];
@@ -202,7 +215,8 @@ class Db
 		$diff[] = $buffer;
 		$summary['secuence']['create'][] = "{$schema}.{$sequence}";
 	}
-	
+
+
 	private function _createView($schema, $view, $master, &$diff, &$summary)
 	{
 		$definition = $master['views'][$view]['definition'];
@@ -216,7 +230,8 @@ class Db
 		$diff[] = $buffer;
 		$summary['view']['create'][] = "{$schema}.{$view}";
 	}
-	
+
+
 	private function _createViews($schema, $views, $master, &$diff, &$summary)
 	{
 		if (count((array) $views) > 0) {
@@ -225,7 +240,8 @@ class Db
 			}
 		}
 	}
-	
+
+
 	private function _addColumns($table, $columns, $master, &$diff, &$summary)
 	{
 		if (count((array) $columns) > 0) {
@@ -235,7 +251,8 @@ class Db
 			}
 		}
 	}
-	
+
+
 	private function _deleteColumns($table, $columns, $master, &$diff, &$summary)
 	{
 		if (count((array) $columns) > 0) {
@@ -245,7 +262,8 @@ class Db
 			}
 		}
 	}
-	
+
+
 	private function _alterColumn($schema, $table, $column, $master, &$diff, &$summary)
 	{
 		$masterType = $master['tables'][$table]['columns'][$column]['type'];
@@ -253,6 +271,7 @@ class Db
 		$diff[] = "\nALTER TABLE {$schema}.{$table} ALTER {$column} TYPE {$masterType}({$masterPrecision});";
 		$summary['column']['alter'][] = "{$schema}.{$table} {$column}";
 	}
+
 
 	public function summary($schema)
 	{
@@ -277,7 +296,8 @@ class Db
 		}
 		return implode("\n", $buffer). "\n";
 	}
-	
+
+
 	public function run($schema) 
 	{
 		$errors = array();
@@ -295,12 +315,14 @@ class Db
 		}
 		return $errors;
 	}
-	
+
+
 	public function raw($schema)
 	{
 		return $this->_diff($schema);
 	}
-	
+
+
 	public function diff($schema)
 	{
 		$buffer = array();
@@ -322,7 +344,8 @@ class Db
 		}
 		return implode("\n", $buffer) . "\n";
 	}
-	
+
+
 	private function _diff($schema)
 	{
 		$out = array();

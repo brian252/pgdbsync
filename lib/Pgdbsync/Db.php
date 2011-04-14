@@ -49,10 +49,14 @@ class Db
 		
 		// tables
 		foreach ((array) $schemaDb->getTables() as $table) {
+			if (! isset( $out['tables'][$table->getName()] ))
+				$out['tables'][$table->getName()] = array();
 			
 			$out['tables'][$table->getName()]['owner'] = $table->getOwner();
 			$out['tables'][$table->getName()]['tablespace'] = $table->getTablespace();
 			// Columns
+			if (! isset( $out['tables'][$table->getName()]['columns'] ))
+				$out['tables'][$table->getName()]['columns'] = array();
 			foreach ((array) $table->columns() as $column) {
 				$out['tables'][$table->getName()]['columns2'][] = $column->getName();
 				$out['tables'][$table->getName()]['columns'][$column->getName()]['type'] = $column->getType();
@@ -60,12 +64,16 @@ class Db
 				$out['tables'][$table->getName()]['columns'][$column->getName()]['nullable'] = $column->getIsNullable();
 			}
 			// Constraints
+			if (! isset( $out['tables'][$table->getName()]['constraints'] ))
+				$out['tables'][$table->getName()]['constraints'] = array();
 			foreach ((array) $table->constraints() as $constraint) {
 				$out['tables'][$table->getName()]['constraints'][$constraint->getName()]['type'] = $constraint->getType();
 				$out['tables'][$table->getName()]['constraints'][$constraint->getName()]['src'] = $constraint->getConstraint();
 				$out['tables'][$table->getName()]['constraints'][$constraint->getName()]['columns'] = $constraint->getColumns();
 			}
 			// Grants
+			if (! isset( $out['tables'][$table->getName()]['grants'] ))
+				$out['tables'][$table->getName()]['grants'] = array();
 			foreach ((array) $table->grants() as $grant) {
 				$out['tables'][$table->getName()]['grants'][$grant] = $grant;
 			}
@@ -73,10 +81,14 @@ class Db
 		
 		// Views
 		foreach ((array) $schemaDb->getViews() as $view) {
+			if (! isset( $out['views'][$view->getName()] ))
+				$out['views'][$view->getName()] = array();
 			$out['views'][$view->getName()]['owner'] = $view->getOwner();
 			$out['views'][$view->getName()]['definition'] = $view->getDefinition();
 			
 			// Grants
+			if (! isset( $out['views'][$view->getName()]['grants'] ))
+				$out['views'][$view->getName()]['grants'] = array();
 			foreach ((array) $view->grants() as $grant) {
 				$out['views'][$view->getName()]['grants'][$grant] = $grant;
 			}

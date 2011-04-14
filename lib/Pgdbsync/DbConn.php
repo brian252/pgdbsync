@@ -76,7 +76,8 @@ class DbConn
 		$stmt = $this->pdo->prepare(self::SQL_GET_VIEWS);
 		$stmt->execute(array(
 			'SCHEMA' => $this->_schema,
-			));	
+			));
+		$out = array();
 		foreach ($stmt->fetchAll() as $row) {
 			$out[] = new View($this->pdo, $row, $this->_schema);
 		}

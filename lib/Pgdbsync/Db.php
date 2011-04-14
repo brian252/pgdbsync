@@ -8,7 +8,7 @@ class Db
 	private $masterDb = null;
 
 
-	public function setMasrer(DbConn $db)
+	public function setMaster(DbConn $db)
 	{
 		$this->masterDb = $db;
 	}

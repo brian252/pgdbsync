@@ -57,7 +57,7 @@ try {
 	//use \Pgdbsync;
 	
 	$dbVc = new \Pgdbsync\Db();
-	$dbVc->setMasrer(new \Pgdbsync\DbConn($master));
+	$dbVc->setMaster(new \Pgdbsync\DbConn($master));
 	if ($to == 'all') {
 		foreach ($conf as $key => $slave) {
 			if ($key != $from) {

@@ -254,7 +254,7 @@ class Db
 	}
 
 
-	private function _addColumns($table, $columns, $master, &$diff, &$summary)
+	private function _addColumns($schema, $table, $columns, $master, &$diff, &$summary)
 	{
 		if (count((array) $columns) > 0) {
 			foreach ($columns as $column) {
@@ -265,7 +265,7 @@ class Db
 	}
 
 
-	private function _deleteColumns($table, $columns, $master, &$diff, &$summary)
+	private function _deleteColumns($schema, $table, $columns, $master, &$diff, &$summary)
 	{
 		if (count((array) $columns) > 0) {
 			foreach ($columns as $column) {
@@ -408,7 +408,7 @@ class Db
 				// delete deleted sequences
 				$deletedSequences = array_diff($slaveSequences, $masterSequences);
 				if (count($deletedSequences) > 0) {
-					$this->_deleteSequences($deletedSequences, $master, $diff, $summary);
+					$this->_deleteSequences($schema, $deletedSequences, $master, $diff, $summary);
 				}
 				// create new sequences
 				$newSequences = array_diff($masterSequences, $slaveSequences);
@@ -444,11 +444,11 @@ class Db
 				
 					$newColumns = array_diff($masterColumns, $slaveColumns);
 					if (count($newColumns) > 0) {
-						$this->_addColumns($table, $newColumns, $master, $diff, $summary);
+						$this->_addColumns($schema, $table, $newColumns, $master, $diff, $summary);
 					}
 					
 					$deletedColumns = array_diff($slaveColumns, $masterColumns);
-					$this->_deleteColumns($table, $deletedColumns, $master, $diff, $summary);
+					$this->_deleteColumns($schema, $table, $deletedColumns, $master, $diff, $summary);
 		 
 					foreach ($masterColumns as $column) {
 						// check modifications (different between $master and $slave)
